@@ -1,0 +1,12 @@
+body {
+    background-color: #f0eee8;
+}
+
+#fallen_hero {
+    background: rgb(187,184,174);
+    background: linear-gradient(0deg, rgba(187,184,174,1) 0%, rgba(213,211,205,1) 35%, rgba(213,211,205,1) 100%);
+    margin: 0 auto;
+    width: 700px;
+    height: 400px;
+    position: relative;
+}
