@@ -1,6 +1,6 @@
 
 import imagePaths from './image_paths.js'
-import {loadImages, drawGrid, setScale, drawScene} from './utils.js'
+import {loadImages, setScale, drawScene, startAnimationLoop, clearCanvas} from './utils.js'
 import Scene from './scene.js'
 
 
@@ -9,7 +9,6 @@ async function init () {
     const ctx = canvas.getContext('2d')
 
     setScale(ctx, 100)
-    drawGrid(ctx)
 
     const images = await loadImages(imagePaths)
     const scene = new Scene()
@@ -182,8 +181,11 @@ async function init () {
         image: images.grass2
     })
 
-
-    drawScene(ctx, scene)
+    startAnimationLoop(function (deltaTime) {
+        clearCanvas(ctx, scene.camera)
+        scene.update(deltaTime)
+        drawScene(ctx, scene)
+    })
 
 }
 

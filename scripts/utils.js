@@ -19,6 +19,11 @@ export async function loadImages (collection) {
 }
 
 
+export function clearCanvas (ctx, {width, height}) {
+    ctx.clearRect(0, 0, width, height)
+}
+
+
 export function setScale (ctx, scale) {
     ctx.scale(scale, scale)
 }
@@ -35,8 +40,7 @@ export function drawImage (ctx, {x, y, width, height, image}) {
 }
 
 
-export function drawGrid (ctx) {
-    const {width, height} = ctx.canvas
+export function drawGrid (ctx, {width, height}) {
     const cellSize = 1
 
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)'
@@ -59,6 +63,27 @@ export function drawGrid (ctx) {
 
 export function drawScene (ctx, scene) {
     scene.elements.forEach(element => {
-        drawImage(ctx, element)
+        const drawParams = Object.assign({}, element)
+
+        drawParams.x -= scene.camera.x
+        drawParams.y -= scene.camera.y
+
+        drawImage(ctx, drawParams)
     })
+}
+
+
+export function startAnimationLoop (callback) {
+    let lastTime = 0
+
+    function animationFrame (time) {
+        const deltaTime = time - lastTime
+        lastTime = time
+
+        callback(deltaTime / 1000)
+
+        requestAnimationFrame(animationFrame)
+    }
+
+    requestAnimationFrame(animationFrame)
 }
