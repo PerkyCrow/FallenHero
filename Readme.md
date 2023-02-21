@@ -4,7 +4,7 @@ This mini-game is designed for educational purposes as part of the interactive b
 
 The source code for the book can be found on [GitHub](https://github.com/Perky-Crow/undead).
 
-At this point in the book, you should be on [Chapter III: The Canvas](http://undeadjs.com/a-javascript-odyssey/painting-a-scene).
+At this point in the book, you should be on [Chapter IV: Movement](http://undeadjs.com/a-javascript-odyssey/movement).
 
 
 
