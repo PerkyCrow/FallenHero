@@ -8,6 +8,22 @@ export function loadImage (path) {
 }
 
 
+export async function loadImages (collection) {
+    const images = {}
+
+    for (let name in collection) {
+        images[name] = await loadImage(collection[name])
+    }
+
+    return images
+}
+
+
+export function setScale (ctx, scale) {
+    ctx.scale(scale, scale)
+}
+
+
 export function drawRectangle (ctx, {x, y, width, height, color}) {
     ctx.fillStyle = color
     ctx.fillRect(x, y, width, height)
@@ -16,11 +32,6 @@ export function drawRectangle (ctx, {x, y, width, height, color}) {
 
 export function drawImage (ctx, {x, y, width, height, image}) {
     ctx.drawImage(image, x, y, width, height)
-}
-
-
-export function setScale (ctx, scale) {
-    ctx.scale(scale, scale)
 }
 
 
@@ -43,4 +54,11 @@ export function drawGrid (ctx) {
         ctx.lineTo(width, y)
         ctx.stroke()
     }
+}
+
+
+export function drawScene (ctx, scene) {
+    scene.elements.forEach(element => {
+        drawImage(ctx, element)
+    })
 }
