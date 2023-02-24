@@ -96,18 +96,8 @@ export function randomPick (choices) {
     if (!Array.isArray(choices)) {
         return choices
     }
-    
+
     return choices[Math.floor(Math.random() * choices.length)]
-}
-
-
-export function intBetween (range) {
-    if (!Array.isArray(range)) {
-        return range
-    }
-    const [min, max] = range
-
-    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 

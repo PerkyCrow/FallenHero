@@ -24,14 +24,7 @@ export default class Scene {
         this.world[type].push(object)
     }
 
-    generate (category, {
-        spacing = 1,
-        y       = 0,
-        width   = 1,
-        height  = 1,
-        sprite  = 'mountain1',
-        count   = 10
-    }) {
+    generate (category, {spacing, y, width, height, sprite, count}) {
         const lastPosition = this.lastPositionFor(category)
 
         let x = lastPosition
