@@ -1,6 +1,6 @@
 
 import imagePaths from './image_paths.js'
-import {loadImages, setScale, drawScene, startAnimationLoop, clearCanvas, drawGrid} from './utils.js'
+import {loadImages, setScale, drawScene, startAnimationLoop, clearCanvas} from './utils.js'
 import Scene from './scene.js'
 
 
@@ -15,12 +15,14 @@ async function init () {
 
     startAnimationLoop(function (deltaTime) {
         clearCanvas(ctx, scene.camera)
-        
-        drawGrid(ctx, scene.camera)
+
         scene.update(deltaTime)
         drawScene(ctx, scene, images)
     })
 
+    canvas.addEventListener('pointerdown', () => {
+        scene.hero.jump()
+    })
 }
 
 

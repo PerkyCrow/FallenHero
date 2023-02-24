@@ -1,4 +1,6 @@
+import Hero from './hero.js'
 import {floatBetween, randomPick} from './utils.js'
+
 
 export default class Scene {
 
@@ -18,6 +20,8 @@ export default class Scene {
             height: 4,
             speed: 2
         }
+
+        this.hero = new Hero()
     }
 
     add (type, object) {
@@ -114,6 +118,7 @@ export default class Scene {
 
     update (deltaTime) {
         this.camera.x += this.camera.speed * deltaTime
+        this.hero.update(deltaTime, this.camera)
         this.generateWorld()
     }
 

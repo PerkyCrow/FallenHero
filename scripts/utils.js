@@ -73,8 +73,23 @@ export function drawScene (ctx, scene, images) {
             drawImage(ctx, drawParams)
         })
     }
+
+    drawHero(ctx, scene, images)
 }
 
+function drawHero (ctx, scene, images) {
+    const hero = scene.hero
+
+    const drawParams = {
+        x:      hero.x - scene.camera.x,
+        y:      hero.y - scene.camera.y,
+        width:  hero.width,
+        height: hero.height,
+        image:  images[hero.sprite]
+    }
+
+    drawImage(ctx, drawParams)
+}
 
 export function startAnimationLoop (callback) {
     let lastTime = 0
