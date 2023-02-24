@@ -61,15 +61,18 @@ export function drawGrid (ctx, {width, height}) {
 }
 
 
-export function drawScene (ctx, scene) {
-    scene.elements.forEach(element => {
-        const drawParams = Object.assign({}, element)
+export function drawScene (ctx, scene, images) {
+    for (let category in scene.world) {
+        scene.world[category].forEach(element => {
+            const drawParams = Object.assign({}, element)
 
-        drawParams.x -= scene.camera.x
-        drawParams.y -= scene.camera.y
+            drawParams.image = images[drawParams.sprite]
+            drawParams.x -= scene.camera.x
+            drawParams.y -= scene.camera.y
 
-        drawImage(ctx, drawParams)
-    })
+            drawImage(ctx, drawParams)
+        })
+    }
 }
 
 
@@ -86,4 +89,33 @@ export function startAnimationLoop (callback) {
     }
 
     requestAnimationFrame(animationFrame)
+}
+
+
+export function randomPick (choices) {
+    if (!Array.isArray(choices)) {
+        return choices
+    }
+    
+    return choices[Math.floor(Math.random() * choices.length)]
+}
+
+
+export function intBetween (range) {
+    if (!Array.isArray(range)) {
+        return range
+    }
+    const [min, max] = range
+
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+
+export function floatBetween (range) {
+    if (!Array.isArray(range)) {
+        return range
+    }
+    const [min, max] = range
+
+    return Math.random() * (max - min) + min
 }
