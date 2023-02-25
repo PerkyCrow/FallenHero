@@ -21,6 +21,17 @@ export default class Hero {
         return this.frames[this.frameIndex]
     }
 
+    get hitBox () {
+        const semiWidth  = this.width / 2
+        const semiHeight = this.height / 2
+
+        return {
+            x:      this.x + semiWidth,
+            y:      this.y + semiHeight * 0.75,
+            radius: semiWidth * 0.5
+        }
+    }
+
     jump () {
         if (this.y === this.groundY) {
             this.velocityY = this.jumpForce

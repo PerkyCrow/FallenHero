@@ -35,6 +35,30 @@ export function drawRectangle (ctx, {x, y, width, height, color}) {
 }
 
 
+export function drawCircle (ctx, {x, y, radius, color}) {
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
+    ctx.fill()
+}
+
+
+export function drawHitBox (ctx, scene, element) {
+    const {hitBox} = element
+
+    if (hitBox) {
+        const color = element.collided ? 'red' : 'black'
+
+        drawCircle(ctx, {
+            x:      hitBox.x - scene.camera.x,
+            y:      hitBox.y - scene.camera.y,
+            radius: hitBox.radius,
+            color
+        })
+    }
+}
+
+
 export function drawImage (ctx, {x, y, width, height, image}) {
     ctx.drawImage(image, x, y, width, height)
 }
@@ -62,23 +86,34 @@ export function drawGrid (ctx, {width, height}) {
 
 
 export function drawScene (ctx, scene, images) {
-    for (let category in scene.world) {
-        scene.world[category].forEach(element => {
-            const drawParams = Object.assign({}, element)
-
-            drawParams.image = images[drawParams.sprite]
-            drawParams.x -= scene.camera.x
-            drawParams.y -= scene.camera.y
-
-            drawImage(ctx, drawParams)
-        })
-    }
-
+    drawWorld(ctx, scene, images)
     drawHero(ctx, scene, images)
 }
 
+
+function drawWorld (ctx, scene, images) {
+    for (let category in scene.world) {
+        scene.world[category].forEach(element => {
+            drawSceneElement(ctx, scene, images, element)
+        })
+    }
+}
+
+
+function drawSceneElement (ctx, scene, images, element) {
+    const drawParams = Object.assign({}, element)
+
+    drawParams.image = images[drawParams.sprite]
+    drawParams.x -= scene.camera.x
+    drawParams.y -= scene.camera.y
+
+    drawImage(ctx, drawParams)
+    drawHitBox(ctx, scene, element)
+}
+
+
 function drawHero (ctx, scene, images) {
-    const hero = scene.hero
+    const {hero} = scene
 
     const drawParams = {
         x:      hero.x - scene.camera.x,
@@ -89,7 +124,9 @@ function drawHero (ctx, scene, images) {
     }
 
     drawImage(ctx, drawParams)
+    drawHitBox(ctx, scene, hero)
 }
+
 
 export function startAnimationLoop (callback) {
     let lastTime = 0
@@ -123,4 +160,13 @@ export function floatBetween (range) {
     const [min, max] = range
 
     return Math.random() * (max - min) + min
+}
+
+
+export function circleVsCircle (circleA, circleB) {
+    const distanceX = circleA.x - circleB.x
+    const distanceY = circleA.y - circleB.y
+    const distance  = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
+
+    return distance < circleA.radius + circleB.radius
 }

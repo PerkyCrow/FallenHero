@@ -1,6 +1,6 @@
 import Hero from './hero.js'
 import Obstacle from './obstacle.js'
-import {floatBetween, randomPick} from './utils.js'
+import {floatBetween, randomPick, circleVsCircle} from './utils.js'
 
 
 export default class Scene {
@@ -145,6 +145,8 @@ export default class Scene {
     }
 
     update (deltaTime) {
+        this.checkCollisions()
+
         this.elapsedTime += deltaTime
         this.camera.x += this.camera.speed * deltaTime
 
@@ -155,6 +157,18 @@ export default class Scene {
         })
 
         this.generateWorld()
+    }
+
+    checkCollisions () {
+        const {world, hero} = this
+
+        const collided = world.obstacles.some(obstacle => {
+            obstacle.collided = circleVsCircle(hero.hitBox, obstacle.hitBox)
+
+            return obstacle.collided
+        })
+
+        hero.collided = collided
     }
 
 }
