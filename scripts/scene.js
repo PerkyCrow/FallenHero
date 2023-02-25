@@ -1,4 +1,5 @@
 import Hero from './hero.js'
+import Obstacle from './obstacle.js'
 import {floatBetween, randomPick} from './utils.js'
 
 
@@ -14,14 +15,16 @@ export default class Scene {
         }
 
         this.camera = {
-            x: 0,
-            y: 0,
-            width: 7,
+            x:      0,
+            y:      0,
+            width:  7,
             height: 4,
-            speed: 2
+            speed:  3
         }
 
         this.hero = new Hero()
+
+        this.elapsedTime = 0
     }
 
     add (type, object) {
@@ -94,6 +97,31 @@ export default class Scene {
             sprite:  ['mountain1', 'mountain2', 'mountain3', 'mountain4', 'mountain5', 'mountain6'],
             count:   8
         })
+
+        this.generateObstacles()
+    }
+
+    generateObstacles () {
+        const {camera} = this
+
+        if (this.elapsedTime < this.nextObstacleAt) {
+            return
+        }
+
+        const scale = floatBetween([0.4, 0.8])
+
+        const obstacle = new Obstacle({
+            x:      camera.x + camera.width + 1,
+            y:      floatBetween([2.5, 2.9]),
+            width:  scale,
+            height: scale,
+            sprite: randomPick(['tech1', 'tech2', 'tech3', 'tech4', 'tech5', 'tech6', 'tech7'])
+        })
+
+        this.add('obstacles', obstacle)
+
+        const nextObstacleDelay = (1 / this.camera.speed) * floatBetween(2.5, 4.5)
+        this.nextObstacleAt = this.elapsedTime + nextObstacleDelay
     }
 
 
@@ -117,8 +145,15 @@ export default class Scene {
     }
 
     update (deltaTime) {
+        this.elapsedTime += deltaTime
         this.camera.x += this.camera.speed * deltaTime
+
         this.hero.update(deltaTime, this.camera)
+
+        this.world.obstacles.forEach(obstacle => {
+            obstacle.update(deltaTime, this.camera)
+        })
+
         this.generateWorld()
     }
 
