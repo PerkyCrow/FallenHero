@@ -5,7 +5,7 @@ import {floatBetween, randomPick, circleVsCircle} from './utils.js'
 
 export default class Scene {
 
-    constructor () {
+    constructor ({debug, onGameOver}) {
         this.world = {
             mountains:  [],
             props:      [],
@@ -15,16 +15,24 @@ export default class Scene {
         }
 
         this.camera = {
-            x:      0,
-            y:      0,
-            width:  7,
-            height: 4,
-            speed:  3
+            x:        0,
+            y:        0,
+            width:    7,
+            height:   4,
+            speed:    3,
+            maxSpeed: 10
         }
 
         this.hero = new Hero()
 
         this.elapsedTime = 0
+        this.ended       = false
+        this.debug       = debug
+        this.onGameOver  = onGameOver
+    }
+
+    get score () {
+        return Math.floor(this.elapsedTime * this.camera.speed)
     }
 
     add (type, object) {
@@ -144,11 +152,26 @@ export default class Scene {
         return x > camera.x + camera.width
     }
 
+    gameOver () {
+        if (!this.ended) {
+            this.ended = true
+            this.onGameOver()
+        }
+    }
+
     update (deltaTime) {
+        if (this.ended) {
+            return
+        }
+
         this.checkCollisions()
 
         this.elapsedTime += deltaTime
-        this.camera.x += this.camera.speed * deltaTime
+
+        const {camera} = this
+        camera.x      += camera.speed * deltaTime
+        camera.speed  += 0.05 * deltaTime
+        camera.speed   = Math.min(camera.speed, camera.maxSpeed)
 
         this.hero.update(deltaTime, this.camera)
 
@@ -169,6 +192,10 @@ export default class Scene {
         })
 
         hero.collided = collided
+
+        if (collided) {
+            this.gameOver()
+        }
     }
 
 }

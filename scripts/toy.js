@@ -11,7 +11,12 @@ async function init () {
     setScale(ctx, 100)
 
     const images = await loadImages(imagePaths)
-    const scene = new Scene()
+    const scene = new Scene({
+        debug: true,
+        onGameOver: () => {
+            console.log('Game over!')
+        }
+    })
 
     startAnimationLoop(function (deltaTime) {
         clearCanvas(ctx, scene.camera)

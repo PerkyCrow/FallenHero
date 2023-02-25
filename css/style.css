@@ -10,3 +10,46 @@ body {
     height: 400px;
     position: relative;
 }
+
+#fallen_hero .game_score {
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+    font: 3em monospace;
+    font-weight: bold;
+}
+
+#fallen_hero .game_over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#fallen_hero .game_over .game_over_visual {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+}
+
+#fallen_hero .game_over .game_over_visual img {
+    width: 200px;
+}
+
+#fallen_hero .game_over .game_over_replay {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+#fallen_hero .game_over .game_over_replay img {
+    width: 80px;
+    border-radius: 50%;
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+#fallen_hero .game_over .game_over_replay img:hover {
+    border-bottom: 0.25em solid black;
+}

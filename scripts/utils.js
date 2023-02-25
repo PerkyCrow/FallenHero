@@ -46,7 +46,7 @@ export function drawCircle (ctx, {x, y, radius, color}) {
 export function drawHitBox (ctx, scene, element) {
     const {hitBox} = element
 
-    if (hitBox) {
+    if (scene.debug && hitBox) {
         const color = element.collided ? 'red' : 'black'
 
         drawCircle(ctx, {
