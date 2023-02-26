@@ -86,6 +86,7 @@ export function drawGrid (ctx, {width, height}) {
 
 
 export function drawScene (ctx, scene, images) {
+    drawFloor(ctx, scene)
     drawWorld(ctx, scene, images)
     drawHero(ctx, scene, images)
 }
@@ -125,6 +126,17 @@ function drawHero (ctx, scene, images) {
 
     drawImage(ctx, drawParams)
     drawHitBox(ctx, scene, hero)
+}
+
+
+function drawFloor (ctx, scene) {
+    drawRectangle(ctx, {
+        x:      0,
+        y:      3.5,
+        width:  scene.camera.width,
+        height: 0.5,
+        color: 'black'
+    })
 }
 
 
