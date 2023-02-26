@@ -4,9 +4,6 @@ This mini-game is designed for educational purposes as part of the interactive b
 
 The source code for the book can be found on [GitHub](https://github.com/Perky-Crow/undead).
 
-At this point in the book, you should be on [Chapter VIII: From toy to game](http://undeadjs.com/a-javascript-odyssey/from-toy-to-game).
-
-
 
 ## Installation
 
